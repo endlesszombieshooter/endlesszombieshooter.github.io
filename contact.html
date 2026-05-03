@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact – Endless Zombie Shooter</title>
+  <meta name="description" content="Get in touch with the developer of Endless Zombie Shooter. Send bug reports, feature suggestions, or general feedback."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Barlow:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blood: #c0392b; --blood-dark: #7b241c; --bg: #0a0a0a;
+      --surface: #111; --card: #161616; --text: #d4d4d4; --muted: #666;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; font-weight: 300; overflow-x: hidden; }
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(10,10,10,0.92); border-bottom: 1px solid #1e1e1e;
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 60px;
+    }
+    .nav-logo { font-family: 'Bebas Neue', cursive; font-size: 1.6rem; color: var(--blood); letter-spacing: 2px; text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--blood); }
+
+    .page-header {
+      padding: 10rem 2rem 5rem; text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(192,57,43,0.12) 0%, transparent 60%), var(--bg);
+    }
+    .section-tag { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: var(--blood); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 0.8rem; }
+    h1 { font-family: 'Bebas Neue', cursive; font-size: clamp(3rem, 8vw, 6rem); letter-spacing: 3px; color: #fff; }
+    h2 { font-family: 'Bebas Neue', cursive; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: 2px; color: #fff; margin-bottom: 1rem; }
+    p { line-height: 1.85; color: var(--text); margin-bottom: 1rem; }
+
+    .contact-layout {
+      max-width: 1000px; margin: 0 auto;
+      padding: 5rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    @media (max-width: 700px) { .contact-layout { grid-template-columns: 1fr; } }
+
+    /* FORM */
+    .form-card { background: var(--card); border: 1px solid #1e1e1e; padding: 2.5rem; }
+    .form-group { margin-bottom: 1.5rem; }
+    label {
+      display: block;
+      font-family: 'Share Tech Mono', monospace; font-size: 0.7rem;
+      text-transform: uppercase; letter-spacing: 2px;
+      color: var(--muted); margin-bottom: 0.5rem;
+    }
+    input, textarea, select {
+      width: 100%; background: #0f0f0f; border: 1px solid #2a2a2a;
+      color: var(--text); font-family: 'Barlow', sans-serif; font-weight: 300;
+      font-size: 0.95rem; padding: 0.85rem 1rem;
+      outline: none; transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    input:focus, textarea:focus, select:focus { border-color: var(--blood); }
+    textarea { resize: vertical; min-height: 140px; }
+    select { cursor: pointer; }
+    select option { background: #111; }
+    .btn-submit {
+      width: 100%; padding: 1rem;
+      background: var(--blood); color: #fff; border: none; cursor: pointer;
+      font-family: 'Bebas Neue', cursive; font-size: 1.2rem; letter-spacing: 2px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-submit:hover { background: var(--blood-dark); transform: translateY(-1px); }
+    .form-note { font-size: 0.8rem; color: var(--muted); margin-top: 1rem; text-align: center; line-height: 1.5; }
+
+    /* SUCCESS STATE */
+    .success-msg {
+      display: none; text-align: center; padding: 2rem;
+    }
+    .success-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .success-title { font-family: 'Bebas Neue', cursive; font-size: 2rem; color: #2ecc71; letter-spacing: 2px; }
+    .success-text { color: var(--muted); font-size: 0.9rem; margin-top: 0.5rem; }
+
+    /* INFO SIDE */
+    .info-side {}
+    .info-block { margin-bottom: 3rem; }
+    .info-block p { font-size: 0.95rem; }
+
+    .contact-types { margin-top: 1.5rem; }
+    .contact-type {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1rem 0; border-bottom: 1px solid #1e1e1e;
+    }
+    .contact-type:last-child { border-bottom: none; }
+    .ct-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .ct-label { font-family: 'Bebas Neue', cursive; font-size: 1.1rem; letter-spacing: 1px; color: #fff; margin-bottom: 0.2rem; }
+    .ct-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+
+    .response-note {
+      background: var(--card); border: 1px solid #1e1e1e;
+      border-left: 3px solid var(--blood);
+      padding: 1.2rem 1.5rem; margin-top: 2rem;
+      font-size: 0.85rem; color: var(--muted); line-height: 1.6;
+    }
+    .response-note strong { color: var(--text); }
+
+    .email-card {
+      background: var(--card); border: 1px solid #1e1e1e;
+      padding: 2.5rem; text-align: center; margin-bottom: 2rem;
+    }
+    .email-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .email-label {
+      font-family: 'Share Tech Mono', monospace; font-size: 0.7rem;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 2px;
+      margin-bottom: 0.8rem;
+    }
+    .email-address {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem; color: #fff;
+      background: #0f0f0f; border: 1px solid #2a2a2a;
+      padding: 0.9rem 1.5rem; display: inline-block;
+      letter-spacing: 1px; margin-bottom: 1.5rem;
+      word-break: break-all;
+    }
+    .btn-email {
+      display: inline-block; width: 100%; padding: 1rem;
+      background: var(--blood); color: #fff; text-decoration: none;
+      font-family: 'Bebas Neue', cursive; font-size: 1.2rem; letter-spacing: 2px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-email:hover { background: var(--blood-dark); transform: translateY(-1px); }
+    .email-note { font-size: 0.8rem; color: var(--muted); margin-top: 1rem; line-height: 1.5; }
+
+    footer {
+      background: var(--surface); border-top: 1px solid #1e1e1e;
+      padding: 2rem; text-align: center;
+      font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--muted);
+    }
+    footer a { color: var(--muted); text-decoration: none; margin: 0 0.8rem; }
+    footer a:hover { color: var(--blood); }
+    .footer-links { margin-bottom: 0.8rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">EZS</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="section-tag">// Reach Out</div>
+  <h1>Contact</h1>
+</div>
+
+<div class="contact-layout">
+
+  <!-- EMAIL -->
+  <div>
+    <div class="section-tag">// Send a Message</div>
+    <h2>Get In Touch</h2>
+    <div class="email-card">
+      <div class="email-icon">✉️</div>
+      <div class="email-label">Developer Email</div>
+      <div class="email-address">gamedev3978@gmail.com</div>
+      <a class="btn-email" href="mailto:gamedev3978@gmail.com?subject=Endless Zombie Shooter Feedback">
+        ✉ Open In Email App
+      </a>
+      <p class="email-note">Clicking the button will open your default email app with the address pre-filled. Or copy the address above and paste it manually.</p>
+    </div>
+
+    <div style="background:var(--card);border:1px solid #1e1e1e;padding:1.5rem;">
+      <div class="email-label" style="text-align:left;margin-bottom:0.8rem;">What to include in your email</div>
+      <ul style="padding-left:1.2rem;">
+        <li style="font-size:0.88rem;color:var(--muted);line-height:1.8;margin-bottom:0.3rem;">🐛 <strong style="color:var(--text);">Bug:</strong> What happened, which wave, which browser</li>
+        <li style="font-size:0.88rem;color:var(--muted);line-height:1.8;margin-bottom:0.3rem;">💡 <strong style="color:var(--text);">Feature idea:</strong> Describe the mechanic or enemy you'd like</li>
+        <li style="font-size:0.88rem;color:var(--muted);line-height:1.8;margin-bottom:0.3rem;">🎮 <strong style="color:var(--text);">Feedback:</strong> Your high score, what you loved or hated</li>
+        <li style="font-size:0.88rem;color:var(--muted);line-height:1.8;">🤝 <strong style="color:var(--text);">Collab:</strong> Your skills and what you'd like to contribute</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="info-side">
+    <div class="info-block">
+      <div class="section-tag">// Why Contact?</div>
+      <h2>I Want To Hear From You</h2>
+      <p>This is a solo indie project and every piece of feedback helps shape the game. Whether you found a bug, have a great idea, or just want to share your high score — I'm listening.</p>
+    </div>
+
+    <div class="contact-types">
+      <div class="contact-type">
+        <div class="ct-icon">🐛</div>
+        <div>
+          <div class="ct-label">Bug Reports</div>
+          <div class="ct-desc">Found something broken? Please describe what happened, which wave you were on, and which browser you're using. Screenshots help enormously.</div>
+        </div>
+      </div>
+      <div class="contact-type">
+        <div class="ct-icon">💡</div>
+        <div>
+          <div class="ct-label">Feature Requests</div>
+          <div class="ct-desc">Have an idea for a new weapon, enemy type, or mechanic? I review every suggestion and many features have come from player feedback.</div>
+        </div>
+      </div>
+      <div class="contact-type">
+        <div class="ct-icon">🎮</div>
+        <div>
+          <div class="ct-label">General Feedback</div>
+          <div class="ct-desc">Loved a wave? Hated the difficulty spike? Think the weapon balancing is off? All feedback is valuable and genuinely read.</div>
+        </div>
+      </div>
+      <div class="contact-type">
+        <div class="ct-icon">🤝</div>
+        <div>
+          <div class="ct-label">Collaboration</div>
+          <div class="ct-desc">Artists, sound designers, or other developers interested in contributing to the project — reach out.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="response-note">
+      <strong>Response time:</strong> I typically reply within 2–5 days. This is a solo project, so during busy periods it may take a little longer. Every message gets a reply.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy Policy</a>
+  </div>
+  © 2025 Endless Zombie Shooter · Made by Indie Developer · Hosted on GitHub Pages
+</footer>
+
+
+
+</body>
+</html>

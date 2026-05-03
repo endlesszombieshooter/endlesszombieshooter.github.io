@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dev Blog & Updates – Endless Zombie Shooter</title>
+  <meta name="description" content="Follow the development of Endless Zombie Shooter. Read patch notes, dev updates, gameplay tips, and behind-the-scenes insights from the indie developer."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Barlow:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blood: #c0392b; --blood-dark: #7b241c; --bg: #0a0a0a;
+      --surface: #111; --card: #161616; --text: #d4d4d4; --muted: #666;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; font-weight: 300; overflow-x: hidden; }
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(10,10,10,0.92); border-bottom: 1px solid #1e1e1e;
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 60px;
+    }
+    .nav-logo { font-family: 'Bebas Neue', cursive; font-size: 1.6rem; color: var(--blood); letter-spacing: 2px; text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--blood); }
+
+    .page-header {
+      padding: 10rem 2rem 5rem; text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(192,57,43,0.12) 0%, transparent 60%), var(--bg);
+    }
+    .section-tag { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: var(--blood); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 0.8rem; }
+    h1 { font-family: 'Bebas Neue', cursive; font-size: clamp(3rem, 8vw, 6rem); letter-spacing: 3px; color: #fff; }
+    h2 { font-family: 'Bebas Neue', cursive; font-size: clamp(1.8rem, 3vw, 2.5rem); letter-spacing: 2px; color: #fff; margin-bottom: 0.8rem; }
+    p { line-height: 1.85; color: var(--text); margin-bottom: 1rem; }
+
+    .blog-layout {
+      max-width: 1100px; margin: 0 auto;
+      padding: 5rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 4rem;
+      align-items: start;
+    }
+    @media (max-width: 768px) { .blog-layout { grid-template-columns: 1fr; } }
+
+    /* POSTS */
+    .post {
+      background: var(--card); border: 1px solid #1e1e1e;
+      margin-bottom: 2rem;
+      transition: border-color 0.2s;
+    }
+    .post:hover { border-color: var(--blood-dark); }
+    .post-header { padding: 2rem 2rem 0; }
+    .post-meta {
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .post-tag {
+      font-family: 'Share Tech Mono', monospace; font-size: 0.65rem;
+      text-transform: uppercase; letter-spacing: 2px;
+      padding: 0.2rem 0.7rem; border: 1px solid;
+    }
+    .tag-patch { color: var(--blood); border-color: var(--blood-dark); }
+    .tag-tips { color: #2ecc71; border-color: #1a7a45; }
+    .tag-dev { color: #3498db; border-color: #1a4d7a; }
+    .tag-news { color: #f39c12; border-color: #7a5010; }
+    .post-date { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: var(--muted); }
+    .post-body { padding: 0 2rem 2rem; }
+    .post-body p { font-size: 0.95rem; }
+    .post-body ul { padding-left: 1.5rem; margin: 0.8rem 0 1rem; }
+    .post-body li { font-size: 0.9rem; color: var(--text); line-height: 1.8; margin-bottom: 0.3rem; }
+    .post-body li::marker { color: var(--blood); }
+    .read-more {
+      display: inline-block; margin-top: 0.5rem;
+      font-family: 'Share Tech Mono', monospace; font-size: 0.75rem;
+      color: var(--blood); text-decoration: none; letter-spacing: 1px;
+    }
+    .read-more:hover { text-decoration: underline; }
+    .post-divider { height: 1px; background: #1e1e1e; margin: 0 2rem; }
+
+    /* SIDEBAR */
+    .sidebar { position: sticky; top: 80px; }
+    .sidebar-card {
+      background: var(--card); border: 1px solid #1e1e1e;
+      padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .sidebar-title {
+      font-family: 'Bebas Neue', cursive; font-size: 1.2rem;
+      letter-spacing: 1px; color: #fff; margin-bottom: 1rem;
+      padding-bottom: 0.5rem; border-bottom: 1px solid #1e1e1e;
+    }
+    .category-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.5rem 0; border-bottom: 1px solid #1a1a1a;
+      font-size: 0.85rem; cursor: pointer; transition: color 0.2s;
+    }
+    .category-item:last-child { border-bottom: none; }
+    .category-item:hover { color: var(--blood); }
+    .category-count {
+      font-family: 'Share Tech Mono', monospace; font-size: 0.7rem;
+      color: var(--muted);
+    }
+    .recent-post { padding: 0.7rem 0; border-bottom: 1px solid #1a1a1a; }
+    .recent-post:last-child { border-bottom: none; }
+    .recent-post-title { font-size: 0.85rem; color: var(--text); line-height: 1.4; margin-bottom: 0.2rem; }
+    .recent-post-date { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; color: var(--muted); }
+
+    footer {
+      background: var(--surface); border-top: 1px solid #1e1e1e;
+      padding: 2rem; text-align: center;
+      font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--muted);
+    }
+    footer a { color: var(--muted); text-decoration: none; margin: 0 0.8rem; }
+    footer a:hover { color: var(--blood); }
+    .footer-links { margin-bottom: 0.8rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">EZS</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="blog.html" class="active">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="section-tag">// Dev Log</div>
+  <h1>Blog & Updates</h1>
+</div>
+
+<div class="blog-layout">
+  <main>
+
+    <!-- POST 1 -->
+    <article class="post">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-tag tag-patch">Patch Notes</span>
+          <span class="post-date">May 2025</span>
+        </div>
+        <h2>v1.2 – New Enemy Type & Weapon Balancing</h2>
+      </div>
+      <div class="post-divider"></div>
+      <div class="post-body">
+        <p>This update brings one of the most requested features: the Armored Zombie. This new enemy type soaks up a lot of damage and requires strategic weapon selection to take down efficiently.</p>
+        <p><strong>What's new in v1.2:</strong></p>
+        <ul>
+          <li>New enemy: Armored Zombie — high HP, slow movement, drops rare loot</li>
+          <li>Shotgun damage increased by 15% against grouped enemies</li>
+          <li>Rifle reload time reduced slightly for better mid-wave flow</li>
+          <li>Fixed a bug where health drops would occasionally spawn outside the map</li>
+          <li>Wave transition screen now shows kill count and accuracy stats</li>
+        </ul>
+        <p>Balancing feedback is always welcome — if a weapon feels too weak or overpowered, let me know via the Contact page.</p>
+      </div>
+    </article>
+
+    <!-- POST 2 -->
+    <article class="post">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-tag tag-tips">Gameplay Tips</span>
+          <span class="post-date">April 2025</span>
+        </div>
+        <h2>How to Survive Past Wave 20: Advanced Strategies</h2>
+      </div>
+      <div class="post-divider"></div>
+      <div class="post-body">
+        <p>Wave 20 is where most players hit a wall. The horde density increases significantly and zombie speed starts to outpace the average player's reaction time. Here are the strategies that consistently work.</p>
+        <p><strong>Zone Control:</strong> Stop thinking about individual zombies and start thinking about zones. Define a "safe corridor" and funnel enemies into it. This dramatically reduces the number of directions you have to watch at once.</p>
+        <p><strong>Weapon Rotation:</strong> Don't commit to one weapon. Swap between shotgun (crowd control), rifle (single targets), and pistol (conserving ammo between waves). Each serves a specific purpose.</p>
+        <ul>
+          <li>Shotgun: Best for 3+ zombies in tight formation</li>
+          <li>Rifle: Best for fast runners at range</li>
+          <li>Pistol: Ammo-efficient for clearing stragglers</li>
+        </ul>
+        <p><strong>Health Management:</strong> At wave 20+, don't pick up health packs unless you're below 40% HP. You'll need them more later. Discipline here separates good runs from great ones.</p>
+      </div>
+    </article>
+
+    <!-- POST 3 -->
+    <article class="post">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-tag tag-dev">Dev Update</span>
+          <span class="post-date">March 2025</span>
+        </div>
+        <h2>Behind The Build: How Enemy AI Works</h2>
+      </div>
+      <div class="post-divider"></div>
+      <div class="post-body">
+        <p>One of the most common questions I get is: how do the zombies navigate the map? The answer is a lightweight pathfinding system built from scratch in vanilla JavaScript.</p>
+        <p>Each zombie uses a basic steering behaviour — they move toward the player's position, but with a slight separation force to avoid clustering too tightly. This makes them feel like a natural horde rather than a single mass.</p>
+        <p>For the runner-type zombies, I added a look-ahead system where they predict the player's movement direction and cut off escape routes. This is what makes them feel genuinely dangerous at higher waves.</p>
+        <p>Future updates will introduce basic obstacle avoidance so the AI feels even more natural in complex maps. It's a fun technical challenge — stay tuned.</p>
+      </div>
+    </article>
+
+    <!-- POST 4 -->
+    <article class="post">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-tag tag-news">News</span>
+          <span class="post-date">February 2025</span>
+        </div>
+        <h2>Endless Zombie Shooter Is Now Live</h2>
+      </div>
+      <div class="post-divider"></div>
+      <div class="post-body">
+        <p>After several months of development, testing, and iteration — Endless Zombie Shooter is officially live on GitHub Pages.</p>
+        <p>What started as a small personal project turned into something I'm genuinely proud of. The core loop — move, shoot, survive, repeat — feels satisfying and the difficulty curve keeps runs engaging from wave 1 to wave 30+.</p>
+        <p>The game is completely free and will always remain free. No ads interrupting gameplay, no pay-to-win upgrades, no account required. Just open the link and play.</p>
+        <p>Thank you to everyone who tested early builds and sent feedback. This game is better because of you. Now — go see how long you can survive.</p>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-title">Categories</div>
+      <div class="category-item"><span>Patch Notes</span><span class="category-count">3 posts</span></div>
+      <div class="category-item"><span>Gameplay Tips</span><span class="category-count">4 posts</span></div>
+      <div class="category-item"><span>Dev Updates</span><span class="category-count">3 posts</span></div>
+      <div class="category-item"><span>News</span><span class="category-count">2 posts</span></div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-title">Recent Posts</div>
+      <div class="recent-post">
+        <div class="recent-post-title">v1.2 – New Enemy Type & Weapon Balancing</div>
+        <div class="recent-post-date">May 2025</div>
+      </div>
+      <div class="recent-post">
+        <div class="recent-post-title">How to Survive Past Wave 20</div>
+        <div class="recent-post-date">April 2025</div>
+      </div>
+      <div class="recent-post">
+        <div class="recent-post-title">Behind The Build: Enemy AI</div>
+        <div class="recent-post-date">March 2025</div>
+      </div>
+      <div class="recent-post">
+        <div class="recent-post-title">Endless Zombie Shooter Is Now Live</div>
+        <div class="recent-post-date">February 2025</div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-title">Quick Links</div>
+      <div class="category-item"><a href="index.html" style="color:inherit;text-decoration:none;">▶ Play The Game</a></div>
+      <div class="category-item"><a href="about.html" style="color:inherit;text-decoration:none;">ℹ About</a></div>
+      <div class="category-item"><a href="contact.html" style="color:inherit;text-decoration:none;">✉ Contact</a></div>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy Policy</a>
+  </div>
+  © 2025 Endless Zombie Shooter · Made by Indie Developer · Hosted on GitHub Pages
+</footer>
+
+</body>
+</html>
