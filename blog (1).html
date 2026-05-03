@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dev Blog & Updates – Endless Zombie Shooter</title>
+  <meta name="description" content="Follow the development of Endless Zombie Shooter. Read patch notes, dev updates, gameplay tips, and behind-the-scenes insights from the indie developer."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Barlow:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blood: #c0392b; --blood-dark: #7b241c; --bg: #0a0a0a;
+      --surface: #111; --card: #161616; --text: #d4d4d4; --muted: #666;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; font-weight: 300; overflow-x: hidden; }
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(10,10,10,0.92); border-bottom: 1px solid #1e1e1e;
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 60px;
+    }
+    .nav-logo { font-family: 'Bebas Neue', cursive; font-size: 1.6rem; color: var(--blood); letter-spacing: 2px; text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--blood); }
+
+    .page-header {
+      padding: 10rem 2rem 5rem; text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(192,57,43,0.12) 0%, transparent 60%), var(--bg);
+    }
+    .section-tag { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: var(--blood); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 0.8rem; }
+    h1 { font-family: 'Bebas Neue', cursive; font-size: clamp(3rem, 8vw, 6rem); letter-spacing: 3px; color: #fff; }
+    h2 { font-family: 'Bebas Neue', cursive; font-size: clamp(1.8rem, 3vw, 2.5rem); letter-spacing: 2px; color: #fff; margin-bottom: 0.8rem; }
+    p { line-height: 1.85; color: var(--text); margin-bottom: 1rem; }
+
+    .blog-layout {
+      max-width: 1100px; margin: 0 auto;
+      padding: 5rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 4rem;
+      align-items: start;
+    }
+    @media (max-width: 768px) { .blog-layout { grid-template-columns: 1fr; } }
+
+    /* POSTS */
+    .post {
+      background: var(--card); border: 1px solid #1e1e1e;
+      margin-bottom: 2rem;
+      transition: border-color 0.2s;
+    }
+    .post:hover { border-color: var(--blood-dark); }
+    .post-header { padding: 2rem 2rem 0; }
+    .post-meta {
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .post-tag {
+      font-family: 'Share Tech Mono', monospace; font-size: 0.65rem;
+      text-transform: uppercase; letter-spacing: 2px;
+      padding: 0.2rem 0.7rem; border: 1px solid;
+    }
+    .tag-patch { color: var(--blood); border-color: var(--blood-dark); }
+    .tag-tips { color: #2ecc71; border-color: #1a7a45; }
+    .tag-dev { color: #3498db; border-color: #1a4d7a; }
+    .tag-news { color: #f39c12; border-color: #7a5010; }
+    .post-date { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: var(--muted); }
+    .post-body { padding: 0 2rem 2rem; }
+    .post-body p { font-size: 0.95rem; }
+    .post-body ul { padding-left: 1.5rem; margin: 0.8rem 0 1rem; }
+    .post-body li { font-size: 0.9rem; color: var(--text); line-height: 1.8; margin-bottom: 0.3rem; }
+    .post-body li::marker { color: var(--blood); }
+    .read-more {
+      display: inline-block; margin-top: 0.5rem;
+      font-family: 'Share Tech Mono', monospace; font-size: 0.75rem;
+      color: var(--blood); text-decoration: none; letter-spacing: 1px;
+    }
+    .read-more:hover { text-decoration: underline; }
+    .post-divider { height: 1px; background: #1e1e1e; margin: 0 2rem; }
+
+    /* SIDEBAR */
+    .sidebar { position: sticky; top: 80px; }
+    .sidebar-card {
+      background: var(--card); border: 1px solid #1e1e1e;
+      padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .sidebar-title {
+      font-family: 'Bebas Neue', cursive; font-size: 1.2rem;
+      letter-spacing: 1px; color: #fff; margin-bottom: 1rem;
+      padding-bottom: 0.5rem; border-bottom: 1px solid #1e1e1e;
+    }
+    .category-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.5rem 0; border-bottom: 1px solid #1a1a1a;
+      font-size: 0.85rem; cursor: pointer; transition: color 0.2s;
+    }
+    .category-item:last-child { border-bottom: none; }
+    .category-item:hover { color: var(--blood); }
+    .category-count {
+      font-family: 'Share Tech Mono', monospace; font-size: 0.7rem;
+      color: var(--muted);
+    }
+    .recent-post { padding: 0.7rem 0; border-bottom: 1px solid #1a1a1a; }
+    .recent-post:last-child { border-bottom: none; }
+    .recent-post-title { font-size: 0.85rem; color: var(--text); line-height: 1.4; margin-bottom: 0.2rem; }
+    .recent-post-date { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; color: var(--muted); }
+
+    footer {
+      background: var(--surface); border-top: 1px solid #1e1e1e;
+      padding: 2rem; text-align: center;
+      font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--muted);
+    }
+    footer a { color: var(--muted); text-decoration: none; margin: 0 0.8rem; }
+    footer a:hover { color: var(--blood); }
+    .footer-links { margin-bottom: 0.8rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">EZS</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="blog.html" class="active">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="section-tag">// Dev Log</div>
+  <h1>Blog & Updates</h1>
+</div>
+
+<div class="blog-layout">
+  <main>
+
+    <!-- POST 1 -->
+    <article class="post">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-tag tag-patch">Patch Notes</span>
+          <span class="post-date">May 2026</span>
+        </div>
+        <h2>Update: Shop Upgrades, Coins & New Characters</h2>
+      </div>
+      <div class="post-divider"></div>
+      <div class="post-body">
+        <p>This update introduces the full Shop system — earn coins in every run and spend them on permanent upgrades and new playable characters between sessions.</p>
+        <p><strong>What's new:</strong></p>
+        <ul>
+          <li>Coins now drop from every zombie kill — collect them before they disappear</li>
+          <li>Shop: upgrade Damage and Mag Size for all 4 weapons (up to 5 levels each)</li>
+          <li>4 new unlockable characters added alongside the default SGT. RIVERS</li>
+          <li>DET. HAYES (300 coins) — Speed +55%, lighter build</li>
+          <li>SWAT COLE (500 coins) — HP x2.3, Damage +45%, slower movement</li>
+          <li>CMDR. VOSS (800 coins) — Special Ops with a phase shift every 10 seconds</li>
+          <li>CAPT. RAMOS (1200 coins) — Rage passive: speed increases with kill count</li>
+        </ul>
+        <p>Coins carry over between runs, so every session counts even if you die early.</p>
+      </div>
+    </article>
+
+    <!-- POST 2 -->
+    <article class="post">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-tag tag-tips">Gameplay Tips</span>
+          <span class="post-date">April 2026</span>
+        </div>
+        <h2>Weapon Guide: Glock, Mossberg, MP5 & M4A1</h2>
+      </div>
+      <div class="post-divider"></div>
+      <div class="post-body">
+        <p>Dead City gives you 4 weapons to master. Each one fills a different role — knowing when to use which is the difference between surviving wave 15 and dying at wave 8.</p>
+        <ul>
+          <li><strong>Glock-17 (Pistol):</strong> Your starting weapon. 15-round mag, fast fire rate, zero spread. Reliable and ammo-efficient — great for picking off stragglers and conserving resources.</li>
+          <li><strong>Mossberg (Shotgun):</strong> 6 pellets per shot, wide spread. Devastating at close range against grouped zombies but slow to reload at 1.8 seconds. Don't use it on Runners at range.</li>
+          <li><strong>MP5 (SMG):</strong> 32-round mag, fires every 80ms. Best sustained DPS against regular and fast zombies. Burns ammo quickly — watch your reserves.</li>
+          <li><strong>M4A1 (Rifle):</strong> Highest single-shot damage at 3.2x, nearly zero spread, long bullet range. The go-to weapon for Tank zombies. Slow reload at 1.9 seconds, plan your reload timing carefully.</li>
+        </ul>
+        <p>Switch weapons with keys 1–4. Don't get caught reloading during a dense wave — swap to your pistol while the primary reloads.</p>
+      </div>
+    </article>
+
+    <!-- POST 3 -->
+    <article class="post">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-tag tag-tips">Gameplay Tips</span>
+          <span class="post-date">March 2026</span>
+        </div>
+        <h2>Know Your Enemies: All 4 Zombie Types Explained</h2>
+      </div>
+      <div class="post-divider"></div>
+      <div class="post-body">
+        <p>Dead City has four distinct zombie types, and each one demands a different response. As waves progress, the harder types appear more frequently — here's what you're dealing with.</p>
+        <ul>
+          <li><strong>Normal Zombie:</strong> Standard walker. Slow, medium HP. Easy in early waves, dangerous in large groups. The Mossberg handles crowds of these well.</li>
+          <li><strong>Fast Zombie (Runner):</strong> Smaller, much faster. Low HP but closes distance instantly. Always prioritise Runners before dealing with other zombies — they will reach you first.</li>
+          <li><strong>Tank Zombie (Purple):</strong> Very high HP, large hitbox. Slow but hits hard on contact. Use the M4A1 — it's the only weapon that takes Tanks down efficiently without wasting an entire mag.</li>
+          <li><strong>Exploder (Orange):</strong> Medium speed, explodes on death or when it reaches you. Keep your distance and never let one get close. Shoot it from range — never with the shotgun at close quarters.</li>
+        </ul>
+        <p>From wave 8 onwards, all four types spawn together. Prioritise: Exploders → Runners → Tanks → Normals.</p>
+      </div>
+    </article>
+
+    <!-- POST 4 -->
+    <article class="post">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-tag tag-dev">Dev Update</span>
+          <span class="post-date">February 2026</span>
+        </div>
+        <h2>4 Arenas, 4 Stories: Designing Dead City's Maps</h2>
+      </div>
+      <div class="post-divider"></div>
+      <div class="post-body">
+        <p>Dead City launched with four distinct arenas, each with its own layout, atmosphere, and backstory. Choosing the right arena is part of the strategy.</p>
+        <ul>
+          <li><strong>Police Precinct:</strong> Where it all started. Indoor layout with desks and lockers as cover. The default arena and the most forgiving for new players.</li>
+          <li><strong>Downtown:</strong> The city burns. Large building columns as obstacles, open sightlines between them. Good for rifle users who want distance.</li>
+          <li><strong>St. Mary's Hospital:</strong> Patient zero was here. Tight corridors formed by hospital beds and walls. High intensity — the MP5 shines here.</li>
+          <li><strong>Riverside Cemetery:</strong> The dead rise twice. Gravestones as scattered cover. The most chaotic layout — Exploders are especially dangerous here due to limited escape space.</li>
+        </ul>
+        <p>Each arena has a unique intro story and colour palette. Select your arena from the main menu before each run. Arena choice doesn't affect difficulty scaling — only the layout changes.</p>
+      </div>
+    </article>
+
+    <!-- POST 5 -->
+    <article class="post">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-tag tag-news">News</span>
+          <span class="post-date">January 2026</span>
+        </div>
+        <h2>Dead City: Last Officer Standing — Now Live</h2>
+      </div>
+      <div class="post-divider"></div>
+      <div class="post-body">
+        <p>After months of development, Dead City: Last Officer Standing is officially live on GitHub Pages — completely free, no download, no sign-up required.</p>
+        <p>The game launched with 4 arenas, 4 weapons, 4 zombie types, a full audio engine built from scratch using the Web Audio API, procedural pixel art sprites, a coin and shop system, and a local leaderboard.</p>
+        <p>Everything — rendering, audio, AI, physics, UI — is written in vanilla JavaScript with no external game engine. Just HTML5 Canvas and code.</p>
+        <p>This is a solo indie project built out of a genuine love for top-down shooters. It'll keep getting updated. If you have feedback, use the Contact page — I read every message.</p>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-title">Categories</div>
+      <div class="category-item"><span>Patch Notes</span><span class="category-count">1 post</span></div>
+      <div class="category-item"><span>Gameplay Tips</span><span class="category-count">2 posts</span></div>
+      <div class="category-item"><span>Dev Updates</span><span class="category-count">1 post</span></div>
+      <div class="category-item"><span>News</span><span class="category-count">1 post</span></div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-title">Recent Posts</div>
+      <div class="recent-post">
+        <div class="recent-post-title">Shop Upgrades, Coins & New Characters</div>
+        <div class="recent-post-date">May 2026</div>
+      </div>
+      <div class="recent-post">
+        <div class="recent-post-title">Weapon Guide: Glock, Mossberg, MP5 & M4A1</div>
+        <div class="recent-post-date">April 2026</div>
+      </div>
+      <div class="recent-post">
+        <div class="recent-post-title">Know Your Enemies: All 4 Zombie Types</div>
+        <div class="recent-post-date">March 2026</div>
+      </div>
+      <div class="recent-post">
+        <div class="recent-post-title">4 Arenas, 4 Stories: Designing the Maps</div>
+        <div class="recent-post-date">February 2026</div>
+      </div>
+      <div class="recent-post">
+        <div class="recent-post-title">Dead City: Last Officer Standing — Now Live</div>
+        <div class="recent-post-date">January 2026</div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-title">Quick Links</div>
+      <div class="category-item"><a href="index.html" style="color:inherit;text-decoration:none;">▶ Play The Game</a></div>
+      <div class="category-item"><a href="about.html" style="color:inherit;text-decoration:none;">ℹ About</a></div>
+      <div class="category-item"><a href="contact.html" style="color:inherit;text-decoration:none;">✉ Contact</a></div>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy Policy</a>
+  </div>
+  © 2025 Endless Zombie Shooter · Made by Indie Developer · Hosted on GitHub Pages
+</footer>
+
+</body>
+</html>
