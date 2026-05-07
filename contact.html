@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CONTACT — Dead City: Last Officer Standing</title>
+  <meta name="description" content="Send bug reports, feature requests, or feedback to the developer of Dead City: Last Officer Standing."/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#000;--surface:#0d0f0d;--card:#111411;--acc:#44aaff;--acc2:#ffdd00;--red:#cc2222;--text:#ccddcc;--muted:#556655;--border:#223322;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:13px;overflow-x:hidden;}
+    body::after{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.07) 2px,rgba(0,0,0,0.07) 4px);}
+    nav{position:fixed;top:0;width:100%;z-index:100;background:var(--bg);border-bottom:2px solid var(--acc);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:48px;}
+    .nav-logo{font-size:1rem;letter-spacing:4px;color:var(--acc);text-decoration:none;text-transform:uppercase;}
+    .nav-logo span{color:var(--acc2);}
+    .nav-links{display:flex;list-style:none;}
+    .nav-links li{border-left:1px solid var(--border);}
+    .nav-links a{display:block;padding:0 1.1rem;line-height:46px;color:var(--muted);text-decoration:none;text-transform:uppercase;letter-spacing:2px;font-size:11px;transition:color .1s,background .1s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--acc);background:rgba(68,170,255,.06);}
+    .page-header{padding:8rem 2rem 3rem;border-bottom:1px solid var(--border);background:var(--surface);}
+    .section-tag{font-size:10px;color:var(--acc);letter-spacing:3px;text-transform:uppercase;border-left:3px solid var(--acc);padding-left:8px;margin-bottom:1rem;}
+    h1{font-size:clamp(1.5rem,5vw,3rem);letter-spacing:6px;color:#fff;text-transform:uppercase;}
+    h2{font-size:1rem;letter-spacing:3px;text-transform:uppercase;color:#fff;margin-bottom:1rem;}
+    p{line-height:1.9;color:var(--text);margin-bottom:.8rem;font-size:12px;}
+    .layout{max-width:900px;margin:0 auto;padding:4rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+    @media(max-width:640px){.layout{grid-template-columns:1fr;}}
+    .email-card{background:var(--card);border:1px solid var(--border);border-top:2px solid var(--acc);padding:2.5rem;text-align:center;}
+    .email-icon{font-size:2rem;margin-bottom:1rem;}
+    .email-label{font-size:10px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:.8rem;}
+    .email-address{display:inline-block;background:#000;border:1px solid var(--border);color:#fff;font-size:12px;padding:.8rem 1.2rem;letter-spacing:2px;margin-bottom:1.5rem;word-break:break-all;}
+    .px-btn-email{display:block;width:100%;padding:10px;background:var(--acc);color:#000;text-decoration:none;font-size:12px;letter-spacing:3px;text-transform:uppercase;text-align:center;box-shadow:4px 4px 0 #1a4466;transition:background .1s;}
+    .px-btn-email:hover{background:#66ccff;}
+    .email-note{font-size:10px;color:var(--muted);margin-top:1rem;line-height:1.7;}
+    .tips-card{background:var(--card);border:1px solid var(--border);padding:1.5rem;margin-top:2px;}
+    .tips-label{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:.8rem;}
+    .tip-row{display:flex;gap:.8rem;padding:.5rem 0;border-bottom:1px solid #1a221a;font-size:11px;color:var(--muted);line-height:1.6;}
+    .tip-row:last-child{border-bottom:none;}
+    .tip-row strong{color:var(--text);}
+    .info-block{margin-bottom:2.5rem;}
+    .contact-type{padding:.8rem 0;border-bottom:1px solid var(--border);display:flex;gap:1rem;align-items:flex-start;}
+    .contact-type:last-child{border-bottom:none;}
+    .ct-icon{font-size:1.1rem;flex-shrink:0;}
+    .ct-label{font-size:11px;letter-spacing:2px;color:#fff;margin-bottom:2px;}
+    .ct-desc{font-size:11px;color:var(--muted);line-height:1.6;}
+    .response-note{background:var(--card);border-left:3px solid var(--acc);padding:1rem 1.2rem;font-size:11px;color:var(--muted);line-height:1.7;margin-top:1.5rem;}
+    .response-note strong{color:var(--text);}
+    footer{background:var(--bg);border-top:2px solid var(--acc);padding:1.5rem 2rem;text-align:center;font-size:10px;color:var(--muted);letter-spacing:2px;}
+    footer a{color:var(--muted);text-decoration:none;margin:0 .8rem;}
+    footer a:hover{color:var(--acc);}
+    .footer-links{margin-bottom:6px;}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">DEAD<span>CITY</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">HOME</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+    <li><a href="blog.html">BLOG</a></li>
+    <li><a href="contact.html" class="active">CONTACT</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="section-tag">REACH OUT</div>
+  <h1>CONTACT</h1>
+</div>
+
+<div class="layout">
+  <div>
+    <div class="section-tag" style="margin-bottom:1.5rem;">SEND A MESSAGE</div>
+    <div class="email-card">
+      <div class="email-icon">✉</div>
+      <div class="email-label">DEVELOPER EMAIL</div>
+      <div class="email-address">gamedev3978@gmail.com</div>
+      <a class="px-btn-email" href="mailto:gamedev3978@gmail.com?subject=Dead City Feedback">▶ OPEN EMAIL APP</a>
+      <p class="email-note">Click to open your email app with the address pre-filled — or copy the address above manually.</p>
+    </div>
+    <div class="tips-card">
+      <div class="tips-label">WHAT TO INCLUDE</div>
+      <div class="tip-row"><span>🐛</span><span><strong>BUG:</strong> What happened, which wave, which browser</span></div>
+      <div class="tip-row"><span>💡</span><span><strong>IDEA:</strong> Describe the mechanic or enemy you want</span></div>
+      <div class="tip-row"><span>🎮</span><span><strong>FEEDBACK:</strong> Your high score, what you loved or hated</span></div>
+      <div class="tip-row"><span>🤝</span><span><strong>COLLAB:</strong> Your skills and what you'd like to contribute</span></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="info-block">
+      <div class="section-tag" style="margin-bottom:1.5rem;">WHY CONTACT?</div>
+      <h2>I WANT TO HEAR FROM YOU</h2>
+      <p>Dead City is a solo project. Every bug report, feature idea, and piece of feedback directly shapes what gets built next. No automated responses — a real person reads every email.</p>
+    </div>
+    <div>
+      <div class="contact-type"><div class="ct-icon">🐛</div><div><div class="ct-label">BUG REPORTS</div><div class="ct-desc">Found something broken? Include what happened, which wave, and which browser you're using.</div></div></div>
+      <div class="contact-type"><div class="ct-icon">💡</div><div><div class="ct-label">FEATURE REQUESTS</div><div class="ct-desc">New weapon? New zombie type? New arena? Many features come from player suggestions.</div></div></div>
+      <div class="contact-type"><div class="ct-icon">🎮</div><div><div class="ct-label">GENERAL FEEDBACK</div><div class="ct-desc">High score brag? Weapon balance complaint? All of it is useful.</div></div></div>
+      <div class="contact-type"><div class="ct-icon">🤝</div><div><div class="ct-label">COLLABORATION</div><div class="ct-desc">Artists, sound designers, developers — reach out if you want to contribute.</div></div></div>
+    </div>
+    <div class="response-note"><strong>RESPONSE TIME:</strong> Typically 2–5 days. This is a solo project — during busy periods it may take a little longer. Every message gets a reply.</div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">HOME</a><a href="about.html">ABOUT</a><a href="blog.html">BLOG</a><a href="contact.html">CONTACT</a><a href="privacy.html">PRIVACY POLICY</a>
+  </div>
+  © 2026 DEAD CITY — LAST OFFICER STANDING · INDIE DEVELOPER · GITHUB PAGES
+</footer>
+</body>
+</html>

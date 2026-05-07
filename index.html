@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DEAD CITY — Last Officer Standing</title>
+  <meta name="description" content="Dead City: Last Officer Standing is a free browser-based pixel art zombie survival shooter. 4 weapons, 4 arenas, 5 characters. Play now — no download required."/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#000;--surface:#0d0f0d;--card:#111411;--acc:#44aaff;--acc2:#ffdd00;--red:#cc2222;--text:#ccddcc;--muted:#556655;--border:#223322;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:13px;overflow-x:hidden;}
+    body::after{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.07) 2px,rgba(0,0,0,0.07) 4px);}
+    .pgrid{background-image:linear-gradient(rgba(34,51,34,0.3) 1px,transparent 1px),linear-gradient(90deg,rgba(34,51,34,0.3) 1px,transparent 1px);background-size:16px 16px;}
+    nav{position:fixed;top:0;width:100%;z-index:100;background:var(--bg);border-bottom:2px solid var(--acc);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:48px;}
+    .nav-logo{font-size:1rem;letter-spacing:4px;color:var(--acc);text-decoration:none;text-transform:uppercase;}
+    .nav-logo span{color:var(--acc2);}
+    .nav-links{display:flex;gap:0;list-style:none;}
+    .nav-links li{border-left:1px solid var(--border);}
+    .nav-links a{display:block;padding:0 1.1rem;line-height:46px;color:var(--muted);text-decoration:none;text-transform:uppercase;letter-spacing:2px;font-size:11px;transition:color .1s,background .1s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--acc);background:rgba(68,170,255,.06);}
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5rem 2rem 4rem;position:relative;}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(68,170,255,.07) 0%,transparent 60%),linear-gradient(rgba(34,51,34,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(34,51,34,.4) 1px,transparent 1px);background-size:auto,16px 16px,16px 16px;pointer-events:none;}
+    .hero-eyebrow{display:inline-block;border:2px solid var(--acc);color:var(--acc);font-size:10px;letter-spacing:4px;text-transform:uppercase;padding:4px 12px;margin-bottom:2rem;}
+    .pixel-title{font-size:clamp(2rem,8vw,5rem);letter-spacing:8px;color:#fff;text-transform:uppercase;text-shadow:4px 4px 0 #000;line-height:1.15;}
+    .pixel-title .line2{color:var(--acc2);display:block;}
+    .pixel-title .line3{color:var(--acc);display:block;font-size:.5em;letter-spacing:6px;margin-top:.5rem;}
+    .blink{animation:blink 1s step-end infinite;}
+    @keyframes blink{50%{opacity:0;}}
+    .hero-desc{max-width:480px;margin:2rem auto 0;color:var(--muted);line-height:1.9;font-size:12px;letter-spacing:1px;}
+    .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-top:2.5rem;}
+    .px-btn{display:inline-block;padding:10px 24px;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;cursor:pointer;border:none;outline:none;transition:background .1s,color .1s;}
+    .px-btn-primary{background:var(--acc);color:#000;box-shadow:4px 4px 0 #1a4466;}
+    .px-btn-primary:hover{background:#66ccff;box-shadow:2px 2px 0 #1a4466;}
+    .px-btn-outline{background:transparent;color:var(--acc);border:2px solid var(--acc);box-shadow:4px 4px 0 #112233;}
+    .px-btn-outline:hover{background:rgba(68,170,255,.1);}
+    .stats-row{display:flex;justify-content:center;flex-wrap:wrap;border-top:2px solid var(--border);border-bottom:2px solid var(--border);background:var(--surface);}
+    .stat{padding:1.2rem 2.5rem;border-right:1px solid var(--border);text-align:center;}
+    .stat:last-child{border-right:none;}
+    .stat-n{font-size:1.5rem;color:var(--acc2);letter-spacing:2px;}
+    .stat-l{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+    .section{max-width:900px;margin:0 auto;padding:4rem 2rem;}
+    .section-head{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;}
+    .section-tag{font-size:10px;color:var(--acc);letter-spacing:3px;text-transform:uppercase;border-left:3px solid var(--acc);padding-left:8px;}
+    .section-line{flex:1;height:1px;background:var(--border);}
+    h2{font-family:'Share Tech Mono',monospace;font-size:1.2rem;letter-spacing:4px;text-transform:uppercase;color:#fff;margin-bottom:1rem;}
+    p{line-height:1.9;color:var(--text);margin-bottom:.8rem;font-size:12px;}
+    .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px;background:var(--border);margin-top:1.5rem;}
+    .px-card{background:var(--card);padding:1.5rem;border-top:2px solid transparent;transition:border-color .1s;}
+    .px-card:hover{border-top-color:var(--acc);}
+    .card-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#fff;margin-bottom:.5rem;}
+    .card-text{font-size:11px;color:var(--muted);line-height:1.8;}
+    .px-table{width:100%;border-collapse:collapse;margin-top:1.5rem;}
+    .px-table th{background:var(--surface);color:var(--acc);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 12px;border:1px solid var(--border);text-align:left;}
+    .px-table td{padding:8px 12px;border:1px solid var(--border);font-size:11px;color:var(--text);}
+    .px-table tr:hover td{background:rgba(68,170,255,.04);}
+    .char-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2px;background:var(--border);margin-top:1.5rem;}
+    .char-card{background:var(--card);padding:1.2rem;border-bottom:3px solid transparent;transition:border-color .1s;}
+    .char-card:hover{border-bottom-color:var(--acc);}
+    .char-name{font-size:11px;letter-spacing:2px;color:#fff;margin-bottom:2px;}
+    .char-role{font-size:10px;color:var(--muted);margin-bottom:6px;}
+    .char-passive{font-size:10px;color:var(--acc2);}
+    .char-price{font-size:10px;color:var(--acc);margin-top:6px;}
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:2px;background:var(--border);margin-top:1.5rem;}
+    .step{background:var(--card);padding:1.2rem;}
+    .step-n{font-size:2rem;color:var(--border);margin-bottom:4px;}
+    .step-title{font-size:11px;letter-spacing:2px;color:var(--acc);text-transform:uppercase;margin-bottom:6px;}
+    .step-desc{font-size:11px;color:var(--muted);line-height:1.7;}
+    .cta{text-align:center;padding:4rem 2rem;border-top:1px solid var(--border);background:var(--surface);}
+    footer{background:var(--bg);border-top:2px solid var(--acc);padding:1.5rem 2rem;text-align:center;font-size:10px;color:var(--muted);letter-spacing:2px;}
+    footer a{color:var(--muted);text-decoration:none;margin:0 .8rem;}
+    footer a:hover{color:var(--acc);}
+    .footer-links{margin-bottom:6px;}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">DEAD<span>CITY</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">HOME</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+    <li><a href="blog.html">BLOG</a></li>
+    <li><a href="contact.html">CONTACT</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">FREE BROWSER GAME · NO DOWNLOAD</div>
+  <h1 class="pixel-title">DEAD CITY<span class="line2">LAST OFFICER</span><span class="line3">STANDING<span class="blink">_</span></span></h1>
+  <p class="hero-desc">The city fell. You didn't.<br>Fight wave after wave of the undead across 4 infested arenas. Upgrade your arsenal. Choose your officer. Survive.</p>
+  <div class="hero-actions">
+    <a href="game.html" class="px-btn px-btn-primary">▶ PLAY NOW</a>
+    <a href="#how-to-play" class="px-btn px-btn-outline">HOW TO PLAY</a>
+  </div>
+</section>
+
+<div class="stats-row">
+  <div class="stat"><div class="stat-n">4</div><div class="stat-l">WEAPONS</div></div>
+  <div class="stat"><div class="stat-n">4</div><div class="stat-l">ARENAS</div></div>
+  <div class="stat"><div class="stat-n">5</div><div class="stat-l">CHARACTERS</div></div>
+  <div class="stat"><div class="stat-n">4</div><div class="stat-l">ZOMBIE TYPES</div></div>
+  <div class="stat"><div class="stat-n">FREE</div><div class="stat-l">ALWAYS</div></div>
+</div>
+
+<div class="section pgrid">
+  <div class="section-head"><div class="section-tag">ABOUT THE GAME</div><div class="section-line"></div></div>
+  <h2>SURVIVE THE HORDE</h2>
+  <p>Dead City: Last Officer Standing is a top-down pixel art survival shooter built entirely in vanilla JavaScript and HTML5 Canvas. No engine. No download. Open the browser and play.</p>
+  <p>You are the last cop standing in a city overrun by the undead. Choose your arena, pick your officer, and see how long you can hold the line. Earn coins. Upgrade weapons. Unlock characters. Beat your score.</p>
+</div>
+
+<div class="section" style="padding-top:0;">
+  <div class="section-head"><div class="section-tag">ARSENAL</div><div class="section-line"></div></div>
+  <h2>4 WEAPONS</h2>
+  <table class="px-table">
+    <thead><tr><th>WEAPON</th><th>TYPE</th><th>MAG</th><th>FIRE RATE</th><th>BEST FOR</th></tr></thead>
+    <tbody>
+      <tr><td style="color:#fff;">GLOCK-17</td><td style="color:#44aaff;font-size:10px;">PISTOL</td><td>15</td><td>280ms</td><td>Stragglers, ammo saving</td></tr>
+      <tr><td style="color:#fff;">MOSSBERG</td><td style="color:#ffaa00;font-size:10px;">SHOTGUN</td><td>8</td><td>750ms</td><td>Crowd control, close range</td></tr>
+      <tr><td style="color:#fff;">MP5</td><td style="color:#44ff44;font-size:10px;">SMG</td><td>32</td><td>80ms</td><td>Runners, sustained fire</td></tr>
+      <tr><td style="color:#fff;">M4A1</td><td style="color:#ff44ff;font-size:10px;">RIFLE</td><td>30</td><td>500ms</td><td>Tank zombies, precision</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section pgrid" style="padding-top:0;">
+  <div class="section-head"><div class="section-tag">ROSTER</div><div class="section-line"></div></div>
+  <h2>5 CHARACTERS</h2>
+  <div class="char-grid">
+    <div class="char-card" style="border-bottom-color:#44aaff;"><div class="char-name">SGT. RIVERS</div><div class="char-role">PATROL OFFICER</div><div class="char-passive">BALANCED</div><div class="char-price">FREE</div></div>
+    <div class="char-card" style="border-bottom-color:#44ffff;"><div class="char-name">DET. HAYES</div><div class="char-role">DETECTIVE</div><div class="char-passive">SPEED +55%</div><div class="char-price">300 COINS</div></div>
+    <div class="char-card" style="border-bottom-color:#ff8844;"><div class="char-name">SWAT COLE</div><div class="char-role">SWAT OFFICER</div><div class="char-passive">HP x2.3, DMG +45%</div><div class="char-price">500 COINS</div></div>
+    <div class="char-card" style="border-bottom-color:#cc88ff;"><div class="char-name">CMDR. VOSS</div><div class="char-role">SPECIAL OPS</div><div class="char-passive">PHASE EVERY 10S</div><div class="char-price">800 COINS</div></div>
+    <div class="char-card" style="border-bottom-color:#ff4444;"><div class="char-name">CAPT. RAMOS</div><div class="char-role">SWAT CAPTAIN</div><div class="char-passive">RAGE: SPEED+KILLS</div><div class="char-price">1200 COINS</div></div>
+  </div>
+</div>
+
+<div class="section" style="padding-top:0;" id="how-to-play">
+  <div class="section-head"><div class="section-tag">HOW TO PLAY</div><div class="section-line"></div></div>
+  <h2>GET IN THE FIGHT</h2>
+  <div class="steps">
+    <div class="step"><div class="step-n">01</div><div class="step-title">MOVE</div><div class="step-desc">WASD or Arrow Keys. Stay mobile — standing still is dying.</div></div>
+    <div class="step"><div class="step-n">02</div><div class="step-title">AIM & SHOOT</div><div class="step-desc">Mouse to aim. Click to fire. Switch weapons 1–4.</div></div>
+    <div class="step"><div class="step-n">03</div><div class="step-title">COLLECT</div><div class="step-desc">Coins, ammo, and health packs drop from every kill.</div></div>
+    <div class="step"><div class="step-n">04</div><div class="step-title">UPGRADE</div><div class="step-desc">Spend coins in the Shop to unlock characters and upgrade weapons.</div></div>
+    <div class="step"><div class="step-n">05</div><div class="step-title">SURVIVE</div><div class="step-desc">Each wave is harder. Score high. Top the leaderboard.</div></div>
+  </div>
+</div>
+
+<div class="section pgrid" style="padding-top:0;">
+  <div class="section-head"><div class="section-tag">ARENAS</div><div class="section-line"></div></div>
+  <h2>4 LOCATIONS</h2>
+  <div class="grid2">
+    <div class="px-card"><div class="card-title" style="color:#44aaff;">POLICE PRECINCT</div><div class="card-text">Where it all started. Desks and lockers for cover. The most forgiving layout.</div></div>
+    <div class="px-card"><div class="card-title" style="color:#ffaa00;">DOWNTOWN</div><div class="card-text">The city burns. Open streets between buildings. Long sightlines for the rifle.</div></div>
+    <div class="px-card"><div class="card-title" style="color:#ff44ff;">ST. MARY'S HOSPITAL</div><div class="card-text">Patient zero was here. Tight corridors. The MP5 dominates here.</div></div>
+    <div class="px-card"><div class="card-title" style="color:#44ff88;">RIVERSIDE CEMETERY</div><div class="card-text">The dead rise twice. Scattered gravestones. Watch for Exploders.</div></div>
+  </div>
+</div>
+
+<div class="cta">
+  <div class="section-tag" style="display:inline-block;margin-bottom:1rem;">THE HORDE IS WAITING</div>
+  <h2>HOW LONG WILL YOU LAST?</h2>
+  <p style="color:var(--muted);margin-bottom:1.5rem;font-size:11px;">FREE. NO DOWNLOAD. NO SIGN-UP. JUST SURVIVAL.</p>
+  <a href="game.html" class="px-btn px-btn-primary" style="font-size:14px;padding:12px 32px;">▶ PLAY DEAD CITY</a>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">HOME</a><a href="about.html">ABOUT</a><a href="blog.html">BLOG</a><a href="contact.html">CONTACT</a><a href="privacy.html">PRIVACY POLICY</a>
+  </div>
+  © 2026 DEAD CITY — LAST OFFICER STANDING · INDIE DEVELOPER · GITHUB PAGES
+</footer>
+</body>
+</html>

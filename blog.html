@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DEV BLOG — Dead City: Last Officer Standing</title>
+  <meta name="description" content="Dead City dev blog — patch notes, weapon guides, zombie enemy breakdowns, arena design, and development updates."/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#000;--surface:#0d0f0d;--card:#111411;--acc:#44aaff;--acc2:#ffdd00;--red:#cc2222;--text:#ccddcc;--muted:#556655;--border:#223322;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:13px;overflow-x:hidden;}
+    body::after{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.07) 2px,rgba(0,0,0,0.07) 4px);}
+    nav{position:fixed;top:0;width:100%;z-index:100;background:var(--bg);border-bottom:2px solid var(--acc);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:48px;}
+    .nav-logo{font-size:1rem;letter-spacing:4px;color:var(--acc);text-decoration:none;text-transform:uppercase;}
+    .nav-logo span{color:var(--acc2);}
+    .nav-links{display:flex;list-style:none;}
+    .nav-links li{border-left:1px solid var(--border);}
+    .nav-links a{display:block;padding:0 1.1rem;line-height:46px;color:var(--muted);text-decoration:none;text-transform:uppercase;letter-spacing:2px;font-size:11px;transition:color .1s,background .1s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--acc);background:rgba(68,170,255,.06);}
+    .page-header{padding:8rem 2rem 3rem;border-bottom:1px solid var(--border);background:var(--surface);}
+    .section-tag{font-size:10px;color:var(--acc);letter-spacing:3px;text-transform:uppercase;border-left:3px solid var(--acc);padding-left:8px;margin-bottom:1rem;}
+    h1{font-size:clamp(1.5rem,5vw,3rem);letter-spacing:6px;color:#fff;text-transform:uppercase;}
+    h2{font-size:1rem;letter-spacing:3px;text-transform:uppercase;color:#fff;margin-bottom:.8rem;line-height:1.4;}
+    p{line-height:1.9;color:var(--text);margin-bottom:.8rem;font-size:12px;}
+    .blog-layout{max-width:1000px;margin:0 auto;padding:4rem 2rem;display:grid;grid-template-columns:1fr 240px;gap:3rem;align-items:start;}
+    @media(max-width:720px){.blog-layout{grid-template-columns:1fr;}}
+    .post{background:var(--card);border:1px solid var(--border);border-top:2px solid transparent;margin-bottom:2px;transition:border-top-color .1s;}
+    .post:hover{border-top-color:var(--acc);}
+    .post-header{padding:1.5rem 1.5rem 0;}
+    .post-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:.8rem;}
+    .post-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:2px 8px;border:1px solid;}
+    .tag-patch{color:var(--acc);border-color:var(--acc);}
+    .tag-tips{color:#44ff88;border-color:#44ff88;}
+    .tag-dev{color:#cc88ff;border-color:#cc88ff;}
+    .tag-news{color:var(--acc2);border-color:var(--acc2);}
+    .post-date{font-size:10px;color:var(--muted);letter-spacing:1px;}
+    .post-divider{height:1px;background:var(--border);margin:0 1.5rem;}
+    .post-body{padding:1rem 1.5rem 1.5rem;}
+    .post-body p{font-size:11px;}
+    .post-body ul{padding-left:1.2rem;margin:.6rem 0 .8rem;}
+    .post-body li{font-size:11px;color:var(--text);line-height:1.8;margin-bottom:2px;}
+    .post-body li::marker{color:var(--acc);}
+    .sidebar{position:sticky;top:64px;}
+    .sb-card{background:var(--card);border:1px solid var(--border);padding:1.2rem;margin-bottom:2px;}
+    .sb-title{font-size:10px;letter-spacing:3px;color:var(--acc);text-transform:uppercase;padding-bottom:.6rem;border-bottom:1px solid var(--border);margin-bottom:.8rem;}
+    .sb-item{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid #1a221a;font-size:11px;color:var(--text);}
+    .sb-item:last-child{border-bottom:none;}
+    .sb-count{color:var(--muted);font-size:10px;}
+    .sb-post{padding:.5rem 0;border-bottom:1px solid #1a221a;}
+    .sb-post:last-child{border-bottom:none;}
+    .sb-post-title{font-size:10px;color:var(--text);line-height:1.5;margin-bottom:2px;}
+    .sb-post-date{font-size:9px;color:var(--muted);}
+    .sb-link{display:block;padding:.4rem 0;border-bottom:1px solid #1a221a;font-size:11px;color:var(--muted);text-decoration:none;}
+    .sb-link:last-child{border-bottom:none;}
+    .sb-link:hover{color:var(--acc);}
+    footer{background:var(--bg);border-top:2px solid var(--acc);padding:1.5rem 2rem;text-align:center;font-size:10px;color:var(--muted);letter-spacing:2px;}
+    footer a{color:var(--muted);text-decoration:none;margin:0 .8rem;}
+    footer a:hover{color:var(--acc);}
+    .footer-links{margin-bottom:6px;}
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">DEAD<span>CITY</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">HOME</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+    <li><a href="blog.html" class="active">BLOG</a></li>
+    <li><a href="contact.html">CONTACT</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="section-tag">DEV LOG</div>
+  <h1>BLOG & UPDATES</h1>
+</div>
+
+<div class="blog-layout">
+  <main>
+
+    <article class="post">
+      <div class="post-header">
+        <div class="post-meta"><span class="post-tag tag-patch">PATCH NOTES</span><span class="post-date">MAY 2026</span></div>
+        <h2>SHOP UPDATE — COINS, UPGRADES & NEW CHARACTERS</h2>
+      </div>
+      <div class="post-divider"></div>
+      <div class="post-body">
+        <p>The full Shop system is now live. Earn coins every run and spend them on permanent upgrades and new characters.</p>
+        <ul>
+          <li>Coins drop from every zombie kill — collect before they disappear</li>
+          <li>Weapon upgrades: Damage and Mag Size, up to 5 levels each</li>
+          <li>DET. HAYES unlocked for 300 coins — Speed +55%</li>
+          <li>SWAT COLE unlocked for 500 coins — HP x2.3, Damage +45%</li>
+          <li>CMDR. VOSS unlocked for 800 coins — Phase shift every 10 seconds</li>
+          <li>CAPT. RAMOS unlocked for 1200 coins — Rage passive builds with kill count</li>
+          <li>Coins persist between runs — every session counts</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="post">
+      <div class="post-header">
+        <div class="post-meta"><span class="post-tag tag-tips">TIPS</span><span class="post-date">APRIL 2026</span></div>
+        <h2>WEAPON GUIDE — GLOCK, MOSSBERG, MP5 & M4A1</h2>
+      </div>
+      <div class="post-divider"></div>
+      <div class="post-body">
+        <p>Each weapon has a specific role. Using the wrong gun for the situation will get you killed.</p>
+        <ul>
+          <li><strong>GLOCK-17:</strong> 15-round mag, 280ms fire rate. Your fallback — ammo-efficient, zero spread. Always reliable for stragglers.</li>
+          <li><strong>MOSSBERG:</strong> 6 pellets per shot, 750ms reload. Devastating at close range against grouped enemies. Useless against Runners at distance.</li>
+          <li><strong>MP5:</strong> 32-round mag, fires every 80ms. Best sustained DPS. Burns ammo fast — watch your reserves on long waves.</li>
+          <li><strong>M4A1:</strong> Highest damage at 3.2x multiplier, near-zero spread, 95px bullet range. The only efficient weapon against Tank zombies.</li>
+        </ul>
+        <p>Switch weapons with keys 1–4. While one reloads, swap to the Glock instead of standing empty.</p>
+      </div>
+    </article>
+
+    <article class="post">
+      <div class="post-header">
+        <div class="post-meta"><span class="post-tag tag-tips">TIPS</span><span class="post-date">MARCH 2026</span></div>
+        <h2>ENEMY GUIDE — ALL 4 ZOMBIE TYPES EXPLAINED</h2>
+      </div>
+      <div class="post-divider"></div>
+      <div class="post-body">
+        <p>From wave 8 onwards all four zombie types spawn together. Know what you're fighting.</p>
+        <ul>
+          <li><strong>NORMAL:</strong> Slow walker, medium HP. Dangerous in large numbers. Mossberg handles crowds.</li>
+          <li><strong>FAST (RUNNER):</strong> Small, very fast, low HP. Always kill Runners before any other type — they reach you first.</li>
+          <li><strong>TANK (PURPLE):</strong> Very high HP, huge hitbox. Use the M4A1 — it's the only weapon that takes them down without burning a full mag of anything else.</li>
+          <li><strong>EXPLODER (ORANGE):</strong> Explodes on contact or death. Never let one get close. Never shoot with the Mossberg at close range — the blast damages you.</li>
+        </ul>
+        <p>Priority order when multiple types are present: Exploders → Runners → Tanks → Normals.</p>
+      </div>
+    </article>
+
+    <article class="post">
+      <div class="post-header">
+        <div class="post-meta"><span class="post-tag tag-dev">DEV UPDATE</span><span class="post-date">FEBRUARY 2026</span></div>
+        <h2>4 ARENAS — DESIGNING THE MAPS OF DEAD CITY</h2>
+      </div>
+      <div class="post-divider"></div>
+      <div class="post-body">
+        <p>Each arena has its own story, obstacle layout, and colour palette — and each one changes how you have to play.</p>
+        <ul>
+          <li><strong>POLICE PRECINCT:</strong> Desks and lockers as cover. The most forgiving layout. Best for learning the game.</li>
+          <li><strong>DOWNTOWN:</strong> Burning city streets. Open sightlines between building columns. Ideal for rifle players who want distance.</li>
+          <li><strong>ST. MARY'S HOSPITAL:</strong> Tight corridors formed by hospital beds. High-intensity — the MP5 dominates here.</li>
+          <li><strong>RIVERSIDE CEMETERY:</strong> Scattered gravestones for cover. The most chaotic map — Exploders are especially deadly here due to limited escape routes.</li>
+        </ul>
+        <p>All arenas share the same difficulty scaling. Only the layout changes. Choose the map that suits your playstyle.</p>
+      </div>
+    </article>
+
+    <article class="post">
+      <div class="post-header">
+        <div class="post-meta"><span class="post-tag tag-news">NEWS</span><span class="post-date">JANUARY 2026</span></div>
+        <h2>DEAD CITY: LAST OFFICER STANDING — NOW LIVE</h2>
+      </div>
+      <div class="post-divider"></div>
+      <div class="post-body">
+        <p>Dead City is officially live on GitHub Pages. Free. No download. No account. Click and play.</p>
+        <p>The game launched with 4 arenas, 4 weapons, 4 zombie types, 5 characters, a coin and shop system, a local leaderboard, and a full procedural audio engine built on the Web Audio API.</p>
+        <p>Every sprite, sound, and mechanic is hand-coded in vanilla JavaScript — no game engine, no libraries. Just HTML5 Canvas and code.</p>
+        <p>This is a solo project built out of genuine love for top-down pixel art shooters. It will keep getting updated. Feedback shapes every patch — use the Contact page.</p>
+      </div>
+    </article>
+
+  </main>
+
+  <aside class="sidebar">
+    <div class="sb-card">
+      <div class="sb-title">CATEGORIES</div>
+      <div class="sb-item"><span>PATCH NOTES</span><span class="sb-count">1</span></div>
+      <div class="sb-item"><span>TIPS</span><span class="sb-count">2</span></div>
+      <div class="sb-item"><span>DEV UPDATES</span><span class="sb-count">1</span></div>
+      <div class="sb-item"><span>NEWS</span><span class="sb-count">1</span></div>
+    </div>
+    <div class="sb-card">
+      <div class="sb-title">RECENT POSTS</div>
+      <div class="sb-post"><div class="sb-post-title">Shop Update — Coins & Characters</div><div class="sb-post-date">MAY 2026</div></div>
+      <div class="sb-post"><div class="sb-post-title">Weapon Guide</div><div class="sb-post-date">APR 2026</div></div>
+      <div class="sb-post"><div class="sb-post-title">Enemy Guide: All 4 Types</div><div class="sb-post-date">MAR 2026</div></div>
+      <div class="sb-post"><div class="sb-post-title">Designing the Arenas</div><div class="sb-post-date">FEB 2026</div></div>
+      <div class="sb-post"><div class="sb-post-title">Dead City Is Live</div><div class="sb-post-date">JAN 2026</div></div>
+    </div>
+    <div class="sb-card">
+      <div class="sb-title">LINKS</div>
+      <a class="sb-link" href="game.html">▶ PLAY THE GAME</a>
+      <a class="sb-link" href="about.html">ℹ ABOUT</a>
+      <a class="sb-link" href="contact.html">✉ CONTACT</a>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">HOME</a><a href="about.html">ABOUT</a><a href="blog.html">BLOG</a><a href="contact.html">CONTACT</a><a href="privacy.html">PRIVACY POLICY</a>
+  </div>
+  © 2026 DEAD CITY — LAST OFFICER STANDING · INDIE DEVELOPER · GITHUB PAGES
+</footer>
+</body>
+</html>
